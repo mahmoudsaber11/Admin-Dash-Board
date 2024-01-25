@@ -3,30 +3,55 @@ import 'package:responsive_dash_board/core/utils/functions/app_images.dart';
 import 'package:responsive_dash_board/features/dashboard/presentation/widgets/drawer_item.dart';
 import 'package:responsive_dash_board/models/drawer_item_model.dart';
 
-class DrawerItemsListView extends StatelessWidget {
+class DrawerItemsListView extends StatefulWidget {
   const DrawerItemsListView({
     super.key,
   });
 
-  static const List<DrawerItemModel> items = [
-    DrawerItemModel(title: "Dashboard", image: Assets.dashboard),
-    DrawerItemModel(title: "My Transaction", image: Assets.myTransctions),
-    DrawerItemModel(title: "Statistics", image: Assets.statistics),
-    DrawerItemModel(title: "Wallet Account", image: Assets.walletAccount),
-    DrawerItemModel(title: "My Investments", image: Assets.myInvestments),
-  ];
+  @override
+  State<DrawerItemsListView> createState() => _DrawerItemsListViewState();
+}
 
+class _DrawerItemsListViewState extends State<DrawerItemsListView> {
+  final List<DrawerItemModel> items = [
+    const DrawerItemModel(title: "Dashboard", image: Assets.dashboard),
+    const DrawerItemModel(title: "My Transaction", image: Assets.myTransctions),
+    const DrawerItemModel(title: "Statistics", image: Assets.statistics),
+    const DrawerItemModel(title: "Wallet Account", image: Assets.walletAccount),
+    const DrawerItemModel(title: "My Investments", image: Assets.myInvestments),
+  ];
+  int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      itemCount: items.length,
       separatorBuilder: (context, index) => const SizedBox(
         height: 20,
       ),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) =>
-          DrawerItem(drawerItemModel: items[index]),
-      itemCount: items.length,
+      itemBuilder: (context, index) => GestureDetector(
+        onTap: () {
+          if (activeIndex != index) {
+            setState(() {
+              activeIndex = index;
+            });
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          decoration: BoxDecoration(
+            color: activeIndex == index
+                ? Colors.blue.withOpacity(0.2) // لون مختلف عند التحديد
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: DrawerItem(
+            drawerItemModel: items[index],
+            isActive: activeIndex == index,
+          ),
+        ),
+      ),
     );
   }
 }
