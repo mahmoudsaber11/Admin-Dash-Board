@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:responsive_dash_board/features/dashboard/presentation/view/dash_board_view.dart';
 
 void main() {
-  runApp(DevicePreview(
-      enabled: true,
-      tools: const [
-        ...DevicePreview.defaultTools,
-      ],
-      builder: (context) => const AdminDashBoard()));
+  // runApp(DevicePreview(
+  //     enabled: true,
+  //     tools: const [
+  //       ...DevicePreview.defaultTools,
+  //     ],
+  //     builder: (context) => const AdminDashBoard()));
+  runApp(const AdminDashBoard());
 }
 
 class AdminDashBoard extends StatelessWidget {

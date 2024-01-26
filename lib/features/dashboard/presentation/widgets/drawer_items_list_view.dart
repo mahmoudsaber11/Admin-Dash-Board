@@ -23,32 +23,33 @@ class _DrawerItemsListViewState extends State<DrawerItemsListView> {
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return SliverList.builder(
       itemCount: items.length,
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 20,
-      ),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) => GestureDetector(
-        onTap: () {
-          if (activeIndex != index) {
-            setState(() {
-              activeIndex = index;
-            });
-          }
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          decoration: BoxDecoration(
-            color: activeIndex == index
-                ? Colors.blue.withOpacity(0.2) // لون مختلف عند التحديد
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: DrawerItem(
-            drawerItemModel: items[index],
-            isActive: activeIndex == index,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: GestureDetector(
+          onTap: () {
+            if (activeIndex != index) {
+              setState(() {
+                activeIndex = index;
+              });
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              decoration: BoxDecoration(
+                color: activeIndex == index
+                    ? Colors.blue.withOpacity(0.2) // لون مختلف عند التحديد
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: DrawerItem(
+                drawerItemModel: items[index],
+                isActive: activeIndex == index,
+              ),
+            ),
           ),
         ),
       ),
